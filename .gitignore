@@ -1,0 +1,28 @@
+# Virtual environment
+Lib/
+Scripts/
+Include/
+pyvenv.cfg
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Model weights cache (downloaded automatically by HuggingFace)
+.cache/
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Output images
+*_segmented.jpg
+*_segmented.png
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
