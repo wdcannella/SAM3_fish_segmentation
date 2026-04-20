@@ -191,9 +191,11 @@ def segment_fish(image_path, output_path, prompt="fish", confidence_threshold=0.
         confidence_threshold: Used only as a warning threshold for display purposes.
             All detections are kept so that degraded CPU scores don't suppress results.
     """
-    device = "cpu"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    print(f"Using device: {device}")
 
-    patch_torch_for_cpu()
+    if device == "cpu":
+        patch_torch_for_cpu()
 
     t_total_start = time.perf_counter()
 
@@ -201,7 +203,8 @@ def segment_fish(image_path, output_path, prompt="fish", confidence_threshold=0.
     t_load_start = time.perf_counter()
     try:
         model = build_sam3_image_model(device=device)
-        model = cast_model_to_float32(model)
+        if device == "cpu":
+            model = cast_model_to_float32(model)
         model.eval()
     except Exception as e:
         print(f"Failed to load model: {e}")
